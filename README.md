@@ -64,6 +64,23 @@ Question 2:
 The authors claim that FedAvg can cause semantic interference or collapse for LoReFT in FL settings. However, the claim of collapsing is not supported by analysis or experiments. All the discussions about existing literature and challenges talk about the potential incompatibility between FedAvg and LoReFT. In the experiments, the comparisons are made against FLoRA, FedIT, FFA-LoRA, FedSB, etc. None of these methods is analyzed or discussed to show the methodologies used by these methods and how these methods would solve the aforementioned problems. Given the names of these methods, it could be that these methods are not related to LoReFT. In this case, the authors should discuss/show what happens if the FedAvg and LoReFT are directly combined and implemented. In its current form, the research questions brought up in the introduction are left unanswered. 
 
 Answer:
+We sincerely appreciate the reviewer’s thoughtful comment and agree that a more direct analysis of FedAvg+LoReFT compatibility would strengthen the clarity of our contributions.
+
+We clarify the following in response:
+
+    FedAvg+LoReFT is not well-established in existing literature, and to the best of our knowledge, we are the first to adapt representation fine-tuning (i.e., ReFT/LoReFT) to FL. Our motivation arises from the hypothesis—grounded in empirical evidence and architectural intuition—that naive aggregation of representation-level interventions (via FedAvg) can lead to semantic drift or collapse, particularly in heterogeneous tasks.
+
+    Regarding baseline selection: While FLoRA, FedIT, FFA-LoRA, and FedSB are not explicitly LoReFT-based, they are the closest state-of-the-art parameter-efficient FL methods, often relying on LoRA-like decompositions. We selected them intentionally to benchmark our method against the strongest available alternatives in low-rank or PEFT-based FL.
+
+    On FedAvg + LoReFT baseline: We agree that an explicit implementation of a naïve FedAvg+LoReFT combination should be included to empirically support our theoretical concern. In response to your suggestion:
+
+        We will include an additional experiment where we apply FedAvg directly to ReFT-style sparse representation interventions, without our ABM aggregation.
+
+        We will measure the semantic consistency, accuracy drop, and variance across clients to show the effects of naive aggregation.
+
+        We will also enhance the related work section to clarify which baselines do or do not use representation-level interventions, and how their aggregation strategies differ.
+
+Thank you again for pointing this out—we will revise accordingly in the final version.
 
  
 
