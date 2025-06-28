@@ -1,4 +1,4 @@
-Reviewer 1: 
+## Reviewer 1: 
 Question 1: The motivation for transitioning from FedReFT to FedReFT+ is not clearly articulated, making it difficult to understand the limitations of FedReFT that FedReFT+ aims to overcome. As described, FedReFT resembles a standard FedAvg approach where clients apply ReFT locally and the server aggregates the trainable parameters via weighted averaging, yet the paper does not clarify why this baseline is insufficient.
 
 Answer:
@@ -99,4 +99,32 @@ In the author's checklist, the authors have checked B4 PII and Offensive informa
 
 Answer: 
 We sincerely apologize for the oversight; our work uses only publicly available, licensed datasets that do not contain any B4 PII or offensive content. We will correct the mistaken selection of item B4 in the camera-ready version. 
+
+
+
+## Reviewer 3
+Question 1: In Table 3, FedReFT+ with rank=8 shows no improvement over Fed-SB in terms of both performance and the number of trainable parameters. 
+
+Answer:
+
+Question 2: Table 4 displays the performance of FedReFT+ across different models with two setups. However, it is unclear what the baseline performance is under these settings.
+
+Answer:
+
+
+Question 3: Table 5 only presents performance on four GLUE subtasks. A more comprehensive comparison across all subtasks would provide a clearer analysis. 
+
+Answer:
+
+Question 3: Figure 1 is unclear, presenting both the count and percentage of trainable parameters. Since these two metrics are essentially the same, a performance comparison relative to the number of trainable parameters would be more intuitive. 
+
+Answer: 
+
+
+Comments, Suggestion,s And Typos:
+- Section 2.1 compares various intervention parameter sharing strategies, but FedReFT+ ultimately selects Full Intervention Sharing without any special design. Therefore, this discussion could be moved to the Appendix. In contrast, the ablation study on the Aggregation method is important and should be included in the main body of the paper. 
+Answer: 
+
+- Many tables and figures are not located on the same pages where they are referenced, which makes the paper hard to follow. 
+Answer:
 
