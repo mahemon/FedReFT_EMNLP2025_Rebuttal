@@ -9,11 +9,11 @@ To address this, we propose a novel All-But-Me (ABM) aggregation strategy that i
 Question 2: The adoption of the geometric median in the All-but-Me aggregation strategy lacks strong justification. While an ablation study is provided in Appendix F, the performance differences between aggregation methods are marginal, and the geometric median introduces higher computational complexity compared to simpler alternatives like Mean-ABM.
 
 Answer:
-While the performance gap may appear small at first glance, we would like to emphasize that even modest improvements are meaningful in the FL setting, particularly when evaluating under highly heterogeneous task distributions. 
-As shown in Figure 3 (Appendix F): 
-Commonsense task: Geometric Median-ABM improves over Mean-ABM by 0.41 points and over FedAvg by 0.73 points. 
-Arithmetic reasoning (GSM8K): Geometric Median-ABM improves over Mean-ABM by 1.01 and over FedAvg by 1.86. 
-GLUE (NLU task): The improvement over Mean-ABM is 0.19, and over FedAvg is 1.06. 
+While the performance gap may appear small at first glance, we would like to emphasize that even modest improvements are meaningful in the FL setting, particularly when evaluating under highly heterogeneous task distributions. As shown in Figure 3 (Appendix F):
+  - Commonsense task: Geometric Median-ABM improves over Mean-ABM by 0.41 points and over FedAvg by 0.73 points. 
+  - Arithmetic reasoning (GSM8K): Geometric Median-ABM improves over Mean-ABM by 1.01 and over FedAvg by 1.86. 
+  - GLUE (NLU task): The improvement over Mean-ABM is 0.19, and over FedAvg is 1.06. 
+
 These improvements are consistent across three diverse task types. We chose Geometric Median-ABM not for peak accuracy alone but for its robustness to outlier updates and task drift, which are common in federated personalization scenarios. Especially in the arithmetic reasoning task, which is highly sensitive to client diversity, the gains were more pronounced. While we acknowledge the additional cost of computing the geometric median, this is done only once per round at the server on low-dimensional sparse intervention parameters (not full models), making the overhead negligible. Importantly, client-side efficiency is unaffected, preserving our design goal of being lightweight for edge devices. We will revise Appendix F to include variance/error bars and improve clarity in the camera-ready version. 
 
 Question 3: 
