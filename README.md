@@ -5,7 +5,7 @@ Answer:
 We appreciate the reviewer’s thoughtful feedback. We would like to clarify the concerns raised by the reviewer:  There is no prior method called “FedReFT” upon which our work builds. Our proposed FedReFT+ is not an incremental improvement over an existing "FedReFT" method, but rather a new framework that introduces Representation Fine-Tuning (ReFT) into the federated learning (FL) setting for the first time, to the best of our knowledge. 
 The name “FedReFT+” reflects our broader contributions beyond simply adapting ReFT to FL. Specifically: 
 We identify that naively aggregating representation-level updates across heterogeneous clients can lead to semantic misalignment, especially in task-diverse FL settings. 
-To address this, we propose a novel All-But-Me (ABM) aggregation strategy that improves semantic stability by letting clients partially incorporate global representation shifts without diluting their local semantics. 
+To address this, we propose a novel All-But-Me (ABM) aggregation strategy that improves semantic stability by letting clients partially incorporate global representation shifts without diluting their local semantics. We perform vanilla FedAvg of ReFT in the Federated Learning setting, which we could refer to as FedReFT, as shown in Appendix F.1, Figure 3. 
 
 Question 2: The adoption of the geometric median in the All-but-Me aggregation strategy lacks strong justification. While an ablation study is provided in Appendix F, the performance differences between aggregation methods are marginal, and the geometric median introduces higher computational complexity compared to simpler alternatives like Mean-ABM.
 
@@ -20,17 +20,17 @@ These improvements are consistent across three diverse task types. We chose Geom
 Question 3: 
 The proposed FedReFT+ does not consistently outperform existing methods across all benchmarks. In both Table 3 and Table 5, several baselines achieve better performance, raising concerns about the practical utility and competitiveness of FedReFT+ in real-world applications despite the authors’ efforts to improve performance.  
 
-Answer: The centralized standalone ReFT baseline does not consistently outperform other PEFT methods in accuracy; however, it is 15–65× more parameter-efficient than LoRA while still achieving competitive accuracy. Therefore, FedReFT+ delivers the best balance of Parameter efficiency and performance. We acknowledge that FedReFT+ may not achieve the highest score on every benchmark. However, when considering accuracy and parameter efficiency, FedReFT+ nearly outperforms all state-of-the-art PEFT methods in Federated Learning settings. The following tables shows show how much FedReFT+ efficient compre to the SOTA appraoches. 
+Answer: The centralized standalone ReFT baseline does not consistently outperform other PEFT methods in accuracy; however, it is 15–65× more parameter-efficient than LoRA while still achieving competitive accuracy. Therefore, FedReFT+ delivers the best balance of Parameter efficiency and performance. We acknowledge that FedReFT+ may not achieve the highest score on every benchmark. However, when considering accuracy and parameter efficiency, FedReFT+ nearly outperforms all state-of-the-art PEFT methods in Federated Learning settings. The following tables show how much FedReFT+ efficient compared to the SOTA approaches. 
 
 Commonsense Reasoning Task using LlaMa-3.2 3B from Table 3:
-| Method     | Rank | Param (M) | Avg Accu (%) | Eff. vs FedReFT+(r32) | Acc Δ vs FedReFT+(r32)| Eff. vs FedReFT+(r8) | Acc Δ FedReFT+(r8) |
+| Method     | Rank (R) | Param (M) | Avg Accu (%) | FedReFT+(R 32) Param Effi. | FedReFT+(R 32) Accu | FedReFT+(R 8) Param Effi.| FedReFT+(R 8) Accu|
 |------------|------|-----------|----------------|----------------|------------------|----------------|------------------|
 | FLoRA      | 32   | 243.15    |   78.83          | 22.09×         | –2.61%           | 88.42×         | –3.17%           |
 | FedIT      | 32   | 48.63     |   75.74          |  4.42×          | +0.48%           | 17.68×         | –0.08%           |
 | FFA-LoRA   | 32   | 24.31     |   71.11          |  2.21×          | +5.11%           | 8.84×          | +4.55%           |
-| Fed-SB     | 120  | 2.73      |    75.66          | 0.25×          | +0.56%           | 0.99×          | 0.00%            |
-| FedReFT+ | 32   | 11.01     |    76.22          | 1.00×          | 0.00%            | 4.00×          | +0.56%           |
-| FedReF+ | 8    | 2.75      |     75.66         | 0.25×          | –0.56%           | 1.00×          | 0.00%            |
+| Fed-SB     | 120  | 2.83      |    75.66          | 0.25×          | +0.56%           | 1.03×         | 0.00%            |
+| FedReFT+ (ours) | 32   | 11.01     |    76.22          |         |             |           |            |
+| FedReFT+ (ours) | 8    | 2.75      |     75.66         |           |           |          |             |
 
 
 GLUE Tasks using RoBERTa-large model from Table 5:
@@ -123,21 +123,21 @@ We sincerely apologize for the oversight; our work uses only publicly available,
 Question 1: In Table 3, FedReFT+ with rank=8 shows no improvement over Fed-SB in terms of both performance and the number of trainable parameters. 
 
 Answer:
-
+The following table shows the performance efficiency and accuracy status of FedReFT+ over other baselines. FedReFT+ with rank 8 achieves similar accuracy, 75.66% but FedReFT+ is 1.03× parameter efficient. Also, Fed-SB uses LoRA rank 120, which is a significantly larger dimension for trainable parameters, which helps Fed-SB to achieve similar accuracy. 
 Commonsense Reasoning Task using LlaMa-3.2 3B from Table 3:
-| Method     | Rank | Param (M) | Eff. vs FedReFT+(r8) | Acc Δ vs FedReFT+(r8)| Eff. vs FedReFT+(r8) | Acc Δ FedReFT+(r8) |
-|------------|------|-----------|----------------|------------------|----------------|------------------|
-| FLoRA      | 32   | 243.15    | 22.09×         | –2.61%           | 88.42×         | –3.17%           |
-| FedIT      | 32   | 48.63     | 4.42×          | +0.48%           | 17.68×         | –0.08%           |
-| FFA-LoRA   | 32   | 24.31     | 2.21×          | +5.11%           | 8.84×          | +4.55%           |
-| Fed-SB     | 120  | 2.73      | 0.25×          | 0.0%           | 0.99×          | 0.00%            |
-| FedReFT+ | 32   | 11.01     | 1.00×          | 0.00%            | 4.00×          | +0.56%           |
-| FedReF+ | 8    | 2.75      | 0.25×          | –0.56%           | 1.00×          | 0.00%            |
+| Method     | Rank (R) | Param (M) | Avg Accu (%) | FedReFT+(R 32) Param Effi. | FedReFT+(R 32) Accu | FedReFT+(R 8) Param Effi.| FedReFT+(R 8) Accu|
+|------------|------|-----------|----------------|----------------|------------------|----------------|------------------|
+| FLoRA      | 32   | 243.15    |   78.83          | 22.09×         | –2.61%           | 88.42×         | –3.17%           |
+| FedIT      | 32   | 48.63     |   75.74          |  4.42×          | +0.48%           | 17.68×         | –0.08%           |
+| FFA-LoRA   | 32   | 24.31     |   71.11          |  2.21×          | +5.11%           | 8.84×          | +4.55%           |
+| Fed-SB     | 120  | 2.83      |    75.66          | 0.25×          | +0.56%           | 1.03×         | 0.00%            |
+| FedReFT+ (ours) | 32   | 11.01     |    76.22          |         |             |           |            |
+| FedReFT+ (ours) | 8    | 2.75      |     75.66         |           |           |          |             |
 
 
 Question 2: Table 4 displays the performance of FedReFT+ across different models with two setups. However, it is unclear what the baseline performance is under these settings.
 
-Answer:
+Answer: We did not find any reference work on arithmetic reasoning in the Distinct Task and Mixed Task experiments setup. We found some baseline work on the arithmetic reasoning task over the GSM8K dataset, and we compare FedReFT+ in Table 6. FedReFT+ achieves 7.25×, 3.63× parameter efficiency and +3.05%, 3.36% accuracy improvement over FedSA-LoRA and FFA-LoRA, respectively.
 
 
 Question 3: Table 5 only presents performance on four GLUE subtasks. A more comprehensive comparison across all subtasks would provide a clearer analysis. 
