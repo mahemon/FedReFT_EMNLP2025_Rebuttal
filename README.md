@@ -20,38 +20,37 @@ These improvements are consistent across three diverse task types. We chose Geom
 Question 3: 
 The proposed FedReFT+ does not consistently outperform existing methods across all benchmarks. In both Table 3 and Table 5, several baselines achieve better performance, raising concerns about the practical utility and competitiveness of FedReFT+ in real-world applications despite the authors’ efforts to improve performance.  
 
-Answer: The centralized standalone ReFT baseline does not consistently outperform other PEFT methods in accuracy; however, it is 15–65× more parameter-efficient than LoRA while still achieving competitive accuracy. Therefore, FedReFT+ delivers the best balance of Parameter efficiency and performance. We acknowledge that FedReFT+ may not achieve the highest score on every benchmark. However, when considering accuracy and parameter efficiency, FedReFT+ nearly outperforms all state-of-the-art PEFT methods in Federated Learning settings. The following tables show how much FedReFT+ efficient compared to the SOTA approaches. 
+Answer: The centralized standalone ReFT baseline (Wu et al., 2024b) does not consistently outperform other PEFT methods in accuracy, whereas it is 15–65× more parameter-efficient than LoRA while still achieving competitive accuracy. Therefore, FedReFT+ delivers the best balance of Parameter efficiency and performance. We acknowledge that FedReFT+ may not achieve the highest score on every benchmark. However, when considering accuracy and parameter efficiency, FedReFT+ nearly outperforms all state-of-the-art PEFT methods in Federated Learning settings. The following tables show how much FedReFT+ efficient compared to the SOTA approaches. 
 
-Commonsense Reasoning Task using LlaMa-3.2 3B from Table 3:
-| Method     | Rank (R) | Param (M) | Avg Accu (%) | FedReFT+(R 32) Param Effi. | FedReFT+(R 32) Accu | FedReFT+(R 8) Param Effi.| FedReFT+(R 8) Accu|
-|------------|------|-----------|----------------|----------------|------------------|----------------|------------------|
-| FLoRA      | 32   | 243.15    |   78.83          | 22.09×         | –2.61%           | 88.42×         | –3.17%           |
-| FedIT      | 32   | 48.63     |   75.74          |  4.42×          | +0.48%           | 17.68×         | –0.08%           |
-| FFA-LoRA   | 32   | 24.31     |   71.11          |  2.21×          | +5.11%           | 8.84×          | +4.55%           |
-| Fed-SB     | 120  | 2.83      |    75.66          | 0.25×          | +0.56%           | 1.03×         | 0.00%            |
-| FedReFT+ (ours) | 32   | 11.01     |    76.22          |         |             |           |            |
-| FedReFT+ (ours) | 8    | 2.75      |     75.66         |           |           |          |             |
+From Table 3, Federated fine-tuning performance of LlaMa-3.2 3B across five commonsense reasoning tasks with Mixed Task (MT) experimental setup where clients train on heterogeneous task mixtures to promote generalizable representations. 
+| Method     | Rank (R) | Param (M) | Avg Accu (%) | FedReFT+(R 32) Param Effi. | FedReFT+(R 32) Accu (±)| FedReFT+(R 8) Param Effi. | FedReFT+(R 8) Accu (±)|
+|------------|----------|-----------|----------------|-----------------------|----------------|----------------------|----------------|
+| FLoRA      | 32       | 243.15    | 78.83          | 22.09×                | –2.61%         | 88.42×               | –3.17%         |
+| FedIT      | 32       | 48.63     | 75.74          | 4.42×                 | +0.48%         | 17.68×               | –0.08%         |
+| FFA-LoRA   | 32       | 24.31     | 71.11          | 2.21×                 | +5.11%         | 8.84×                | +4.55%         |
+| Fed-SB     | 120      | 2.83      | 75.66          | 0.26×                 | +0.56%         | 1.03×                | 0.00%          |
+| FedReFT+| 32       | 11.01     | 76.22          | —                     | —              | 4.00×                | +0.56%         |
+| FedReFT+| 8        | 2.75      | 75.66          | 0.25×                 | –0.56%         | —                    | —              |
 
 
-GLUE Tasks using RoBERTa-large model from Table 5:
-| Method         | Trainable Param (M)  | Avg Accu (%) | FedReFT+ Param Effi. | FedReFT+ Accu |
+From table 5, Performance comparison across GLUE Tasks on RoBERTa model for C = 3, FedReFT+ use rank rank 1, whereas all baseline uses rank 8. For Natural Language Understanding task, FedReFT+ outperform all the baseline and (27.17× - 34.53×) times more parameter efficient. 
+| Method         | Trainable Param (M)  | Avg Accu (%) | FedReFT+ Param Effi. | FedReFT+ Accu (±) |
 |----------------|--------|-------------------|----------------------|----------------------|
 | FFA-LoRA       | 1.44   | 89.39             | 27.17×               | +1.54%               |
 | FedDPA-LoRA    | 2.62   | 89.47             | 49.43×               | +1.46%               |
 | FedSA-LoRA     | 1.83   | 90.43             | 34.53×               | +0.50%               |
-| FedReFT+ (ours)      | 0.053 | 90.93             |                |                 |
+| FedReFT+      | 0.053 | 90.93             |       -         |         -        |
 
 
-Arithmetic Reasoning Task using LLaMa-3 8B from Table 6:
-| Method        | Rank | Trainable Param (M) | Accu (%) | FedReFT+ Param Effi. | FedReFT+ Accu |
+From table 6, Performance comparison on arithmetic reasoning tasks for GSM8K on LLaMa-3 8B model with LoRA
+rank 8, where clients enable consistent evaluation of representation generalization. FedReFT+ achieve (+3.05%, +3.36%) higher accuracy with (3.63× - 7.25×) times parameter efficient. 
+| Method        | Rank | Trainable Param (M) | Accu (%) | FedReFT+ Param Effi. | FedReFT+ Accu (±) |
 |---------------|------|-----------|----------------|----------------------|----------------------|
 | FedSA-LoRA    | 8    | 30.40     | 46.63          | 7.25×                | +3.05%               |
 | FFA-LoRA      | 8    | 15.20     | 46.32          | 3.63×                | +3.36%               |
-| FedReFT+ (ours)    | 8    | 4.19       | 49.68          |                 |                |
+| FedReFT+   | 8    | 4.19       | 49.68          |         -        |        -        |
 
 The tie-ϕ variant further demonstrates how our method scales down to even more compact configurations with acceptable performance loss. 
-
-
 
 
 ## Rivewer 2
@@ -82,7 +81,6 @@ We will also enhance the related work section to clarify which baselines do or d
 
 Thank you again for pointing this out—we will revise accordingly in the final version.
 
- 
 
 
 Question 3: 
@@ -124,16 +122,16 @@ Question 1: In Table 3, FedReFT+ with rank=8 shows no improvement over Fed-SB in
 
 Answer:
 The following table shows the performance efficiency and accuracy status of FedReFT+ over other baselines. FedReFT+ with rank 8 achieves similar accuracy, 75.66% but FedReFT+ is 1.03× parameter efficient. Also, Fed-SB uses LoRA rank 120, which is a significantly larger dimension for trainable parameters, which helps Fed-SB to achieve similar accuracy. 
-Commonsense Reasoning Task using LlaMa-3.2 3B from Table 3:
-| Method     | Rank (R) | Param (M) | Avg Accu (%) | FedReFT+(R 32) Param Effi. | FedReFT+(R 32) Accu | FedReFT+(R 8) Param Effi.| FedReFT+(R 8) Accu|
-|------------|------|-----------|----------------|----------------|------------------|----------------|------------------|
-| FLoRA      | 32   | 243.15    |   78.83          | 22.09×         | –2.61%           | 88.42×         | –3.17%           |
-| FedIT      | 32   | 48.63     |   75.74          |  4.42×          | +0.48%           | 17.68×         | –0.08%           |
-| FFA-LoRA   | 32   | 24.31     |   71.11          |  2.21×          | +5.11%           | 8.84×          | +4.55%           |
-| Fed-SB     | 120  | 2.83      |    75.66          | 0.25×          | +0.56%           | 1.03×         | 0.00%            |
-| FedReFT+ (ours) | 32   | 11.01     |    76.22          |         |             |           |            |
-| FedReFT+ (ours) | 8    | 2.75      |     75.66         |           |           |          |             |
 
+From Table 3, Federated fine-tuning performance of LlaMa-3.2 3B across five commonsense reasoning tasks with Mixed Task (MT) experimental setup where clients train on heterogeneous task mixtures to promote generalizable representations.
+| Method     | Rank (R) | Param (M) | Avg Accu (%) | FedReFT+(R 32) Param Effi. | FedReFT+(R 32) Accu (±)| FedReFT+(R 8) Param Effi. | FedReFT+(R 8) Accu (±)|
+|------------|----------|-----------|----------------|-----------------------|----------------|----------------------|----------------|
+| FLoRA      | 32       | 243.15    | 78.83          | 22.09×                | –2.61%         | 88.42×               | –3.17%         |
+| FedIT      | 32       | 48.63     | 75.74          | 4.42×                 | +0.48%         | 17.68×               | –0.08%         |
+| FFA-LoRA   | 32       | 24.31     | 71.11          | 2.21×                 | +5.11%         | 8.84×                | +4.55%         |
+| Fed-SB     | 120      | 2.83      | 75.66          | 0.26×                 | +0.56%         | 1.03×                | 0.00%          |
+| FedReFT+| 32       | 11.01     | 76.22          | —                     | —              | 4.00×                | +0.56%         |
+| FedReFT+| 8        | 2.75      | 75.66          | 0.25×                 | –0.56%         | —                    | —              |
 
 Question 2: Table 4 displays the performance of FedReFT+ across different models with two setups. However, it is unclear what the baseline performance is under these settings.
 
@@ -143,17 +141,17 @@ Answer: We did not find any reference work on arithmetic reasoning in the Distin
 Question 3: Table 5 only presents performance on four GLUE subtasks. A more comprehensive comparison across all subtasks would provide a clearer analysis. 
 Answer: We have taken the performance results of all baseline methods from (Guo et al., 2024). Therefore, we did experiments on these six GLUE subtasks to compare with the well-established baselines.
 
-| Method        | RANK | Param (M) | FedReFT+   Param Effi.| MNLI-m | MNLI-mm | SST-2 | QNLI | QQP  | RTE | Avg |
+| Method        | RANK | Param (M) | FedReFT+ Param Effi.| MNLI-m | MNLI-mm | SST-2 | QNLI | QQP  | RTE | Avg |
 |---------------|----|-----|-----|--------|---------|-------|------|------|-------|--------|
 | FFA-LoRA      | 8 | 1.44 | 27.17× | 88.83  | 88.27   | 94.95 | 91.52| 86.71| 86.08 | 89.39 |
 | FedDPA-LoRA   | 8 | 2.62| 49.43× | 88.99  | 88.43   | 95.50 | 90.74| 85.73| 87.44 | 89.47 |
 | FedSA-LoRA    | 8 | 1.83| 34.53×| 90.18  | 88.88   | 96.00 | 92.13| 87.48| 87.93 | 90.43 |
-| FedReFT+ (ours) | 1 | 0.053| |88.86  | 89.61   | 95.17 | 94.52| 86.57| 87.80 | **90.46** |
+| FedReFT+ | 1 | 0.053| - |88.86  | 89.61   | 95.17 | 94.52| 86.57| 87.80 | **90.46** |
 
 
 Question 3: Figure 1 is unclear, presenting both the count and percentage of trainable parameters. Since these two metrics are essentially the same, a performance comparison relative to the number of trainable parameters would be more intuitive. 
 
-Answer: We redesign Figure 1, which Illustration of the relationship between the average accuracy (in $\%$) and trainable parameter (in $\%$) for various federated PEFT methods on Commonsense, Arithmetic, and GLUE benchmarks using LLaMA-3.2B, LLaMA-3 8B, and RoBERTa-large models, respectively. The figure can be found [in this anonymous URL](https://drive.google.com/file/d/1Pc7yoIQID17AQzgqf1NWqQSUp53PQ27c/view?usp=sharing).
+Answer: We redesign Figure 1, which Illustration of the relationship between the average accuracy (in $\%$) and trainable parameter (in $\%$) for various federated PEFT methods on Commonsense, Arithmetic, and GLUE benchmarks using LLaMA-3.2B, LLaMA-3 8B, and RoBERTa-large models, respectively. The figure can be found [in this anonymous URL](https://postimg.cc/gw1PRqPR)
 
 
 Comments, Suggestion,s And Typos:
