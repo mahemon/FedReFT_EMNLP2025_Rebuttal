@@ -20,9 +20,9 @@ These improvements are consistent across three diverse task types. We chose Geom
 Question 3: 
 The proposed FedReFT+ does not consistently outperform existing methods across all benchmarks. In both Table 3 and Table 5, several baselines achieve better performance, raising concerns about the practical utility and competitiveness of FedReFT+ in real-world applications despite the authors’ efforts to improve performance.  
 
-Answer: The centralized standalone ReFT baseline (Wu et al., 2024b) does not consistently outperform other PEFT methods in accuracy, whereas it is 15–65× more parameter-efficient than LoRA while still achieving competitive accuracy. Therefore, FedReFT+ delivers the best balance of Parameter efficiency and performance. We acknowledge that FedReFT+ may not achieve the highest score on every benchmark. However, when considering accuracy and parameter efficiency, FedReFT+ nearly outperforms all state-of-the-art PEFT methods in Federated Learning settings. The following tables show how much FedReFT+ efficient compared to the SOTA approaches. 
+Answer: The centralized standalone ReFT baseline (Wu et al., 2024b) does not consistently outperform other PEFT methods in accuracy, whereas it is 15–65× more parameter-efficient than LoRA while still achieving competitive accuracy. Therefore, FedReFT+ delivers the best balance of Parameter efficiency and performance. We acknowledge that FedReFT+ may not achieve the highest score on every benchmark. However, when considering accuracy and parameter efficiency, FedReFT+ nearly outperforms all state-of-the-art PEFT methods in Federated Learning settings. The following tables show how much FedReFT+ is efficient compared to the SOTA approaches. 
 
-From Table 3, Federated fine-tuning performance of LlaMa-3.2 3B across five commonsense reasoning tasks with Mixed Task (MT) experimental setup where clients train on heterogeneous task mixtures to promote generalizable representations. 
+From Table 3, Federated fine-tuning performance of LlaMa-3.2 3B across five commonsense reasoning tasks with Mixed Task (MT) experimental setup, where clients train on heterogeneous task mixtures to promote generalizable representations. 
 | Method     | Rank (R) | Param (M) | Avg Accu (%) | FedReFT+(R 32) Param Effi. | FedReFT+(R 32) Accu (±)| FedReFT+(R 8) Param Effi. | FedReFT+(R 8) Accu (±)|
 |------------|----------|-----------|----------------|-----------------------|----------------|----------------------|----------------|
 | FLoRA      | 32       | 243.15    | 78.83          | 22.09×                | –2.61%         | 88.42×               | –3.17%         |
@@ -33,7 +33,7 @@ From Table 3, Federated fine-tuning performance of LlaMa-3.2 3B across five comm
 | FedReFT+| 8        | 2.75      | 75.66          | 0.25×                 | –0.56%         | —                    | —              |
 
 
-From table 5, Performance comparison across GLUE Tasks on RoBERTa model for C = 3, FedReFT+ use rank rank 1, whereas all baseline uses rank 8. For Natural Language Understanding task, FedReFT+ outperform all the baseline and (27.17× - 34.53×) times more parameter efficient. 
+From Table 5, Performance comparison across GLUE Tasks on RoBERTa model for C = 3, FedReFT+ uses rank 1, whereas all baseline uses rank 8. For the Natural Language Understanding task, FedReFT+ outperforms all the baselines and is (27.17× to 34.53×) times more parameter efficient. 
 | Method         | Trainable Param (M)  | Avg Accu (%) | FedReFT+ Param Effi. | FedReFT+ Accu (±) |
 |----------------|--------|-------------------|----------------------|----------------------|
 | FFA-LoRA       | 1.44   | 89.39             | 27.17×               | +1.54%               |
@@ -42,8 +42,8 @@ From table 5, Performance comparison across GLUE Tasks on RoBERTa model for C = 
 | FedReFT+      | 0.053 | 90.93             |       -         |         -        |
 
 
-From table 6, Performance comparison on arithmetic reasoning tasks for GSM8K on LLaMa-3 8B model with LoRA
-rank 8, where clients enable consistent evaluation of representation generalization. FedReFT+ achieve (+3.05%, +3.36%) higher accuracy with (3.63× - 7.25×) times parameter efficient. 
+From Table 6, Performance comparison on arithmetic reasoning tasks for GSM8K on LLaMa-3 8B model with LoRA
+rank 8, where clients enable consistent evaluation of representation generalization. FedReFT+ achieves (+3.05%, +3.36%) higher accuracy with (3.63×, 7.25×) times parameter efficient. 
 | Method        | Rank | Trainable Param (M) | Accu (%) | FedReFT+ Param Effi. | FedReFT+ Accu (±) |
 |---------------|------|-----------|----------------|----------------------|----------------------|
 | FedSA-LoRA    | 8    | 30.40     | 46.63          | 7.25×                | +3.05%               |
@@ -52,33 +52,27 @@ rank 8, where clients enable consistent evaluation of representation generalizat
 
 The tie-ϕ variant further demonstrates how our method scales down to even more compact configurations with acceptable performance loss. 
 
-
-## Rivewer 2
+## Reviewer 2
 Question 1: The authors claim that FedAvg can cause semantic interference or collapse for LoReFT in FL settings. However, the claim of collapsing is not supported by analysis or experiments. 
 
 Answer: 
-We appreciate the reviewer highlighting this point. Our claim regarding semantic interference or collapse under FedAvg is grounded in the intuitive mismatch between LoReFT-style updates (e.g., ReFT, LoRA, LoReFT) and naive parameter averaging, especially under heterogeneous client data or tasks. Since LoReFT modifies internal representation layers, averaging such updates across clients with divergent distributions can result in semantic drift, where the aggregated representation no longer aligns with any client’s local task semantics. 
+We appreciate the reviewer highlighting this point. ReFT methods operate on a frozen base model and learn task-specific Interventions on hidden representations. Our claim regarding semantic interference or collapse under FedAvg is grounded in the intuitive mismatch between LoReFT-style updates (ReFT, LoRA, LoReFT) and naive intervention parameter averaging, especially under heterogeneous client tasks. Since LoReFT modifies internal representation layers, averaging such updates across clients with divergent tasks can result in semantic drift, where the aggregated representation no longer aligns with any client’s local task semantics. 
 
 Question 2: 
 The authors claim that FedAvg can cause semantic interference or collapse for LoReFT in FL settings. However, the claim of collapsing is not supported by analysis or experiments. All the discussions about existing literature and challenges talk about the potential incompatibility between FedAvg and LoReFT. In the experiments, the comparisons are made against FLoRA, FedIT, FFA-LoRA, FedSB, etc. None of these methods is analyzed or discussed to show the methodologies used by these methods and how these methods would solve the aforementioned problems. Given the names of these methods, it could be that these methods are not related to LoReFT. In this case, the authors should discuss/show what happens if the FedAvg and LoReFT are directly combined and implemented. In its current form, the research questions brought up in the introduction are left unanswered. 
 
 Answer:
 We sincerely appreciate the reviewer’s thoughtful comment and agree that a more direct analysis of FedAvg+LoReFT compatibility would strengthen the clarity of our contributions.
-
 We clarify the following in response:
 
-FedAvg+LoReFT is not well-established in existing literature, and to the best of our knowledge, we are the first to adapt representation fine-tuning (i.e., ReFT/LoReFT) to FL. Our motivation arises from the hypothesis—grounded in empirical evidence and architectural intuition—that naive aggregation of representation-level interventions (via FedAvg) can lead to semantic drift or collapse, particularly in heterogeneous tasks.
+FedAvg on LoReFT is not well-established in the existing literature. For any Federated Learning (FL) setting, FedAvg is the vanilla aggregation method. So we first tried FedAvg with LoReFT in FL, but (as mentioned in the previous question's answer), since it is a representation fine-tuning method, we aimed to preserve the personalized representation fine-tuning locally at each client, rather than simply averaging on the server side. Our motivation arises from the hypothesis—grounded in empirical evidence and architectural intuition—that naive aggregation of representation-level interventions (via FedAvg) can lead to semantic drift or collapse, particularly in heterogeneous tasks.
 
 Regarding baseline selection: While FLoRA, FedIT, FFA-LoRA, and FedSB are not explicitly LoReFT-based, they are the closest state-of-the-art parameter-efficient FL methods, often relying on LoRA-like decompositions. We selected them intentionally to benchmark our method against the strongest available alternatives in low-rank or PEFT-based FL.
 
 On FedAvg + LoReFT baseline: We agree that an explicit implementation of a naïve FedAvg+LoReFT combination should be included to empirically support our theoretical concern. In response to your suggestion:
-
 We will include an additional experiment where we apply FedAvg directly to ReFT-style sparse representation interventions, without our ABM aggregation.
-
 We will measure the semantic consistency, accuracy drop, and variance across clients to show the effects of naive aggregation.
-
 We will also enhance the related work section to clarify which baselines do or do not use representation-level interventions, and how their aggregation strategies differ.
-
 Thank you again for pointing this out—we will revise accordingly in the final version.
 
 
