@@ -5,7 +5,7 @@ Answer:
 We appreciate the reviewer’s thoughtful feedback. We would like to clarify the concerns raised by the reviewer:  There is no prior method called “FedReFT” upon which our work builds. Our proposed FedReFT+ is not an incremental improvement over an existing "FedReFT" method, but rather a new framework that introduces Representation Fine-Tuning (ReFT) into the federated learning (FL) setting for the first time, to the best of our knowledge. 
 The name “FedReFT+” reflects our broader contributions beyond simply adapting ReFT to FL. Specifically: 
 We identify that naively aggregating representation-level updates across heterogeneous clients can lead to semantic misalignment, especially in task-diverse FL settings. 
-To address this, we propose a novel All-But-Me (ABM) aggregation strategy that improves semantic stability by letting clients partially incorporate global representation shifts without diluting their local semantics. We perform vanilla FedAvg of ReFT in the Federated Learning setting, which we could refer to as FedReFT, as shown in Appendix F.1, Figure 3. 
+To address this, we propose a novel All-But-Me (ABM) aggregation strategy that improves semantic stability by letting clients partially incorporate global representation shifts without diluting their local semantics. 
 
 Question 2: The adoption of the geometric median in the All-but-Me aggregation strategy lacks strong justification. While an ablation study is provided in Appendix F, the performance differences between aggregation methods are marginal, and the geometric median introduces higher computational complexity compared to simpler alternatives like Mean-ABM.
 
