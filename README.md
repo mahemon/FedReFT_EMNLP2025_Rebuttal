@@ -35,7 +35,7 @@ The proposed FedReFT+ does not consistently outperform existing methods across a
 Answer: The centralized standalone ReFT baseline (Wu et al., 2024b) does not consistently outperform other PEFT methods in accuracy, whereas it is 15–65× more parameter-efficient than LoRA while still achieving competitive accuracy. Therefore, FedReFT+ delivers the best balance of Parameter efficiency and performance. We acknowledge that FedReFT+ may not achieve the highest score on every benchmark. However, when considering accuracy and parameter efficiency, FedReFT+ nearly outperforms all state-of-the-art PEFT methods in Federated Learning settings. The following tables show how much FedReFT+ is efficient compared to the SOTA approaches. 
 
 From Table 3, Federated fine-tuning performance of LlaMa-3.2 3B across five commonsense reasoning tasks with Mixed Task (MT) experimental setup, where clients train on heterogeneous task mixtures to promote generalizable representations. 
-| Method     | Rank (R) | Param (M) | Avg Accu (%) | FedReFT+(R 32) Param Effi. | FedReFT+(R 32) Accu (±)| FedReFT+(R 8) Param Effi. | FedReFT+(R 8) Accu (±)|
+| Method     | Rank (R) | Param (M) | Avg Accu (%) | FedReFT+(R 32) Param Effi. | Accu Δ (FedReFT+(R 32) vs. others)| FedReFT+(R 8) Param Effi. | Accu Δ (FedReFT+(R 8) vs. others)|
 |------------|----------|-----------|----------------|-----------------------|----------------|----------------------|----------------|
 | FLoRA      | 32       | 243.15    | 78.83          | 22.09×                | –2.61%         | 88.42×               | –3.17%         |
 | FedIT      | 32       | 48.63     | 75.74          | 4.42×                 | +0.48%         | 17.68×               | –0.08%         |
@@ -157,7 +157,7 @@ Question 1: In Table 3, FedReFT+ with rank=8 shows no improvement over Fed-SB in
 Answer:
 The following table shows the performance efficiency and accuracy status of FedReFT+ over other baselines. FedReFT+ with rank 8 achieves a similar accuracy of 75.66%, while being 1.03× more parameter-efficient compared to Fed-SB. In contrast, Fed-SB utilizes a much higher LoRA rank of 120, which significantly increases the number of trainable parameters and contributes to its comparable accuracy.
 From Table 3, Federated fine-tuning performance of LlaMa-3.2 3B across five commonsense reasoning tasks with Mixed Task (MT) experimental setup, where clients train on heterogeneous task mixtures to promote generalizable representations.
-| Method     | Rank (R) | Param (M) | Avg Accu (%) | FedReFT+(R 32) Param Effi. | FedReFT+(R 32) Accu (±)| FedReFT+(R 8) Param Effi. | FedReFT+(R 8) Accu (±)|
+| Method     | Rank (R) | Param (M) | Avg Accu (%) | FedReFT+(R 32) Param Effi. | Accu Δ (FedReFT+(R 32) vs. others)| FedReFT+(R 8) Param Effi. | Accu Δ (FedReFT+(R 8) vs. others)|
 |------------|----------|-----------|----------------|-----------------------|----------------|----------------------|----------------|
 | FLoRA      | 32       | 243.15    | 78.83          | 22.09×                | –2.61%         | 88.42×               | –3.17%         |
 | FedIT      | 32       | 48.63     | 75.74          | 4.42×                 | +0.48%         | 17.68×               | –0.08%         |
