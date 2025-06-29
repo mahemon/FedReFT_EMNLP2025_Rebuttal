@@ -183,16 +183,14 @@ Answer: We have taken the performance results of all baseline methods from (Guo 
 | FedSA-LoRA    | 8 | 1.83| 34.53×| 90.18  | 88.88   | 96.00 | 92.13| 87.48| 87.93 | 90.43 |
 | FedReFT+ | 1 | 0.053| - |88.86  | 89.61   | 95.17 | 94.52| 86.57| 87.80 | **90.46** |
 
-
 Question 3: Figure 1 is unclear, presenting both the count and percentage of trainable parameters. Since these two metrics are essentially the same, a performance comparison relative to the number of trainable parameters would be more intuitive. 
 
 Answer: We redesign Figure 1, which Illustration of the relationship between the average accuracy (in $\%$) and trainable parameter (in $\%$) for various federated PEFT methods on Commonsense, Arithmetic, and GLUE benchmarks using LLaMA-3.2B, LLaMA-3 8B, and RoBERTa-large models, respectively. The figure can be found [in this anonymous URL](https://postimg.cc/gw1PRqPR)
 
-
 Comments, Suggestion,s And Typos:
 - Section 2.1 compares various intervention parameter sharing strategies, but FedReFT+ ultimately selects Full Intervention Sharing without any special design. Therefore, this discussion could be moved to the Appendix. In contrast, the ablation study on the Aggregation method is important and should be included in the main body of the paper. 
-Answer: 
+Answer: We will correct the typos in the next version. We are considering moving Section 2.1 to the Appendix to improve the flow of the main content. Additionally, we will incorporate the ablation study on the aggregation method into the main paper to highlight its significance. 
 
 - Many tables and figures are not located on the same pages where they are referenced, which makes the paper hard to follow. 
-Answer:
+Answer: We sincerely acknowledge this issue and will address it in the next version of the paper.
 
