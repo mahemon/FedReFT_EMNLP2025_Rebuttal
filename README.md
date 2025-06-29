@@ -72,7 +72,7 @@ We appreciate the reviewer highlighting this point. ReFT methods operate on a fr
 
 As shown in Figure 3 (Appendix F) and Table 1:
 The time complexity for the arithmetic mean is O(d), whereas the time complexity for the geometric median (using Weiszfeld’s algorithm) is O(T.d), where T is the number of iterations and d is the number of trainable parameters. For memory complexity, both the arithmetic mean and geometric median have the same complexity of O(d). Despite being computationally more expensive, the geometric median is more robust for heterogeneous aggregation and often yields higher accuracy in federated learning (FL) settings. The following table shows the performance of FedAvg, Mean_ABM, and GeoMedian_ABM: 
-| Task         | Method           | Accuracy (%) | Accu Δ (GeoMed vs. others) | Params (M) |
+| Task         | Method           | Accuracy (%) | Accu Δ (GeoMed_ABM vs. others) | Params (M) |
 |--------------|------------------|---------------|-----------------------------|------------------------|
 | Commonsense,LLaMa-2 7B  | FedAvg           | 70.26         | +0.73%                      | 4.70                   |
 |              | Mean_ABM         | 70.58         | +0.41%                      | 4.70                   |
@@ -108,7 +108,7 @@ The W2 could be partly answered by the contents from Appendix F.1. However, Fig.
 
 Answer:
 We did the experiments on a reduced dataset for this section, so the results are not the same as the main context. We present the same data in Table 1, which shows the result of the GLUE task on ROBERTa, Commonsense, and Arithmetic reasoning task on LLaMA-2 7B for three clients. 
-| Task         | Method           | Accuracy (%) | Accu Δ (GeoMed vs. others) | Params (M) |
+| Task         | Method           | Accuracy (%) | Accu Δ (GeoMed_ABM vs. others) | Params (M) |
 |--------------|------------------|---------------|-----------------------------|------------------------|
 | Commonsense,LLaMa-2 7B  | FedAvg           | 70.26         | +0.73%                      | 4.70                   |
 |              | Mean_ABM         | 70.58         | +0.41%                      | 4.70                   |
@@ -172,6 +172,7 @@ Answer: We did not find any reference work on arithmetic reasoning in the Distin
 
 
 Question 3: Table 5 only presents performance on four GLUE subtasks. A more comprehensive comparison across all subtasks would provide a clearer analysis. 
+
 Answer: We have taken the performance results of all baseline methods from (Guo et al., 2024). Therefore, we did experiments on these six GLUE subtasks to compare with the well-established baselines. These results across six tasks demonstrate significant performance gains, achieving 27.17× to 49.43× parameter efficiency compared to the SOTA baselines.
 
 | Method        | RANK | Param (M) | FedReFT+ Param Effi.| MNLI-m | MNLI-mm | SST-2 | QNLI | QQP  | RTE | Avg |
@@ -181,11 +182,12 @@ Answer: We have taken the performance results of all baseline methods from (Guo 
 | FedSA-LoRA    | 8 | 1.83| 34.53×| 90.18  | 88.88   | 96.00 | 92.13| 87.48| 87.93 | 90.43 |
 | FedReFT+ | 1 | 0.053| - |88.86  | 89.61   | 95.17 | 94.52| 86.57| 87.80 | **90.46** |
 
-Question 3: Figure 1 is unclear, presenting both the count and percentage of trainable parameters. Since these two metrics are essentially the same, a performance comparison relative to the number of trainable parameters would be more intuitive. 
+Question 4: Figure 1 is unclear, presenting both the count and percentage of trainable parameters. Since these two metrics are essentially the same, a performance comparison relative to the number of trainable parameters would be more intuitive. 
 
-Answer: We redesign Figure 1, which Illustration of the relationship between the average accuracy (in $\%$) and trainable parameter (in $\%$) for various federated PEFT methods on Commonsense, Arithmetic, and GLUE benchmarks using LLaMA-3.2B, LLaMA-3 8B, and RoBERTa-large models, respectively. The figure can be found [in this anonymous URL](https://postimg.cc/gw1PRqPR)
+Answer: 
+We redesign Figure 1, which Illustration of the relationship between the average accuracy (in $\%$) and trainable parameter (in $\%$) for various federated PEFT methods on Commonsense, Arithmetic, and GLUE benchmarks using LLaMA-3.2B, LLaMA-3 8B, and RoBERTa-large models, respectively. The figure can be found [in this anonymous URL](https://postimg.cc/gw1PRqPR)
 
-Comments, Suggestion,s And Typos:
+Comments, Suggestions, And Typos:
 - Section 2.1 compares various intervention parameter sharing strategies, but FedReFT+ ultimately selects Full Intervention Sharing without any special design. Therefore, this discussion could be moved to the Appendix. In contrast, the ablation study on the Aggregation method is important and should be included in the main body of the paper. 
 Answer: We will correct the typos in the next version. We are considering moving Section 2.1 to the Appendix to improve the flow of the main content. Additionally, we will incorporate the ablation study on the aggregation method into the main paper to highlight its significance. 
 
