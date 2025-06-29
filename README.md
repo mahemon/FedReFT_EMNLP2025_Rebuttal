@@ -34,7 +34,7 @@ Commonsense Reasoning Task using LlaMa-3.2 3B from Table 3:
 
 
 GLUE Tasks using RoBERTa-large model from Table 5:
-| Method         | TP (M) | Param (%) | Avg Accuracy (%) | Efficiency vs FedReFT+ | Accuracy (Inc/Dec) |
+| Method         | Param (M)  | Param (%) | Avg Accuracy (%) | FedReFT+ Param Effi. | FedReFT+ Accu |
 |----------------|--------|------------|-------------------|----------------------|----------------------|
 | FFA-LoRA       | 1.44   | 0.405      | 89.39             | 27.17×               | +1.54%               |
 | FedDPA-LoRA    | 2.62   | 0.737      | 89.47             | 49.43×               | +1.46%               |
@@ -43,7 +43,7 @@ GLUE Tasks using RoBERTa-large model from Table 5:
 
 
 Arithmetic Reasoning Task using LLaMa-3 8B from Table 6:
-| Method        | Rank | Param (M) | Param (%) | Accuracy (%) | FedReFT+ Param Effi. | Accuracy (Inc/Dec) |
+| Method        | Rank | Param (M) | Param (%) | Accuracy (%) | FedReFT+ Param Effi. | FedReFT+ Accu |
 |---------------|------|-----------|------------|----------------|----------------------|----------------------|
 | FedSA-LoRA    | 8    | 30.40     | 0.38       | 46.63          | 7.25×                | +3.05%               |
 | FFA-LoRA      | 8    | 15.20     | 0.19       | 46.32          | 3.63×                | +3.36%               |
