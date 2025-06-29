@@ -141,12 +141,19 @@ Answer: We did not find any reference work on arithmetic reasoning in the Distin
 
 
 Question 3: Table 5 only presents performance on four GLUE subtasks. A more comprehensive comparison across all subtasks would provide a clearer analysis. 
+Answer: We have taken the performance results of all baseline methods from (Guo et al., 2024). Therefore, we did experiments on these six GLUE subtasks to compare with the well-established baselines.
 
-Answer:
+| Method        | RANK | Param (M) | FedReFT+   Param Effi.| MNLI-m | MNLI-mm | SST-2 | QNLI | QQP  | RTE | Avg |
+|---------------|----|-----|-----|--------|---------|-------|------|------|-------|--------|
+| FFA-LoRA      | 8 | 1.44 | 27.17× | 88.83  | 88.27   | 94.95 | 91.52| 86.71| 86.08 | 89.39 |
+| FedDPA-LoRA   | 8 | 2.62| 49.43× | 88.99  | 88.43   | 95.50 | 90.74| 85.73| 87.44 | 89.47 |
+| FedSA-LoRA    | 8 | 1.83| 34.53×| 90.18  | 88.88   | 96.00 | 92.13| 87.48| 87.93 | 90.43 |
+| FedReFT+ (ours) | 1 | 0.053| |88.86  | 89.61   | 95.17 | 94.52| 86.57| 87.80 | **90.46** |
+
 
 Question 3: Figure 1 is unclear, presenting both the count and percentage of trainable parameters. Since these two metrics are essentially the same, a performance comparison relative to the number of trainable parameters would be more intuitive. 
 
-Answer: 
+Answer: We redesign Figure 1, which Illustration of the relationship between the average accuracy (in $\%$) and trainable parameter (in $\%$) for various federated PEFT methods on Commonsense, Arithmetic, and GLUE benchmarks using LLaMA-3.2B, LLaMA-3 8B, and RoBERTa-large models, respectively. The figure can be found [in this anonymous URL](https://drive.google.com/file/d/1Pc7yoIQID17AQzgqf1NWqQSUp53PQ27c/view?usp=sharing).
 
 
 Comments, Suggestion,s And Typos:
