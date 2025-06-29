@@ -108,20 +108,19 @@ The W2 could be partly answered by the contents from Appendix F.1. However, Fig.
 
 Answer:
 We did the experiments on a reduced dataset for this section, so the results are not the same as the main context. We present the same data in Table 1, which shows the result of the GLUE task on ROBERTa, Commonsense, and Arithmetic reasoning task on LLaMA-2 7B for three clients. 
-The following table shows the uplink communication efficiency of ABM-based aggregation over FedAvg aggregation. The table clearly shows that ABM-based aggregation achieves 1.50x higher communication efficiency in the uplink bandwidth, which also preserves the personalized intervention parameter, leading to higher client-level accuracy.
-| Task         | Method           | Accuracy (%) | Accu Δ (GeoMed vs. others) | Per-Client Params (M) | # Clients Sending Param | Total Uplink Comm (M Params) | GeoMedian_ABM Param Effi. |
-|--------------|------------------|---------------|-----------------------------|------------------------|--------------------------|-------------------------|-----------------------------|
-| Commonsense  | FedAvg           | 70.26         | +0.73%                      | 4.70                   | C                        | 14.10                   | 1.50×                      |
-|              | Mean_ABM         | 70.58         | +0.41%                      | 4.70                        | C–1                  | 9.40                    | 1.00×                      |
-|              | GeoMedian_ABM    | 70.99         | –                           | 4.70                        | C–1                  | 9.40                    | –                          |
-|||||||| |
-| Arithmetic   | FedAvg           | 15.35         | +1.86%                      | 4.70                   | C                        | 14.10                   | 1.50×                      |
-|              | Mean_ABM         | 16.20         | +1.01%                      |  4.70                       | C–1                  | 9.40                    | 1.00×                      |
-|              | GeoMedian_ABM    | 17.21         | –                           |  4.70                       | C–1                  | 9.40                    | –                          |
-|||||||| |
-| GLUE         | FedAvg           | 51.30         | +1.06%                      | 0.053                  | C                        | 0.159                   | 1.50×                      |
-|              | Mean_ABM         | 52.17         | +0.19%                      |  0.053                      | C–1                   | 0.106                   | 1.00×                      |
-|              | GeoMedian_ABM    | 52.36         | –                           |  0.053                      | C–1                   | 0.106                   | –                          |
+| Task         | Method           | Accuracy (%) | Accu Δ (GeoMed vs. others) | Params (M) |
+|--------------|------------------|---------------|-----------------------------|------------------------|
+| Commonsense,LLaMa-2 7B  | FedAvg           | 70.26         | +0.73%                      | 4.70                   |
+|              | Mean_ABM         | 70.58         | +0.41%                      | 4.70                   |
+|              | GeoMedian_ABM    | 70.99         | –                           | 4.70                   |
+||||||
+| Arithmetic,LLaMa-2 7B   | FedAvg           | 15.35         | +1.86%                      | 4.70                   |
+|              | Mean_ABM         | 16.20         | +1.01%                      | 4.70                   |
+|              | GeoMedian_ABM    | 17.21         | –                           | 4.70                   |
+||||||
+| GLUE,RoBERTa        | FedAvg           | 51.30         | +1.06%                      | 0.053                  |
+|              | Mean_ABM         | 52.17         | +0.19%                      | 0.053                  |
+|              | GeoMedian_ABM    | 52.36         | –                           | 0.053                  |
 
 Question 4:
 The heterogeneous distribution among clients may not always occur, although it could appear in some real-world FL applications. The Distinct Task (DT) scenario is closer to the heterogeneous distribution assumption. However, no DT results are given for 3.1 Commonsense Reasoning; only Mixed Task (MT) results are shown in Table 3. There is no description about DT/MT for 3.3 Natural Language Understanding. Table 4 gives DT results for 3.2 Arithmetic Reasoning; however, (1) models perform better in DT rather than MT; (2) no comparisons are made to other baselines. 
@@ -156,9 +155,8 @@ We sincerely apologize for the oversight; our work uses only publicly available,
 Question 1: In Table 3, FedReFT+ with rank=8 shows no improvement over Fed-SB in terms of both performance and the number of trainable parameters. 
 
 Answer:
-The following table shows the performance efficiency and accuracy status of FedReFT+ over other baselines. FedReFT+ with rank 8 achieves similar accuracy, 75.66% but FedReFT+ is 1.03× parameter efficient. Also, Fed-SB uses LoRA rank 120, which is a significantly larger dimension for trainable parameters, which helps Fed-SB to achieve similar accuracy. 
-
-From Table 3, Federated fine-tuning performance of LlaMa-3.2 3B across five commonsense reasoning tasks with Mixed Task (MT) experimental setup where clients train on heterogeneous task mixtures to promote generalizable representations.
+The following table shows the performance efficiency and accuracy status of FedReFT+ over other baselines. FedReFT+ with rank 8 achieves a similar accuracy of 75.66%, while being 1.03× more parameter-efficient compared to Fed-SB. In contrast, Fed-SB utilizes a much higher LoRA rank of 120, which significantly increases the number of trainable parameters and contributes to its comparable accuracy.
+From Table 3, Federated fine-tuning performance of LlaMa-3.2 3B across five commonsense reasoning tasks with Mixed Task (MT) experimental setup, where clients train on heterogeneous task mixtures to promote generalizable representations.
 | Method     | Rank (R) | Param (M) | Avg Accu (%) | FedReFT+(R 32) Param Effi. | FedReFT+(R 32) Accu (±)| FedReFT+(R 8) Param Effi. | FedReFT+(R 8) Accu (±)|
 |------------|----------|-----------|----------------|-----------------------|----------------|----------------------|----------------|
 | FLoRA      | 32       | 243.15    | 78.83          | 22.09×                | –2.61%         | 88.42×               | –3.17%         |
@@ -170,11 +168,11 @@ From Table 3, Federated fine-tuning performance of LlaMa-3.2 3B across five comm
 
 Question 2: Table 4 displays the performance of FedReFT+ across different models with two setups. However, it is unclear what the baseline performance is under these settings.
 
-Answer: We did not find any reference work on arithmetic reasoning in the Distinct Task and Mixed Task experiments setup. We found some baseline work on the arithmetic reasoning task over the GSM8K dataset, and we compare FedReFT+ in Table 6. FedReFT+ achieves 7.25×, 3.63× parameter efficiency and +3.05%, 3.36% accuracy improvement over FedSA-LoRA and FFA-LoRA, respectively.
+Answer: We did not find any reference work on arithmetic reasoning in the Distinct Task and Mixed Task experiments setup. We found some baseline work on the arithmetic reasoning task over the GSM8K dataset, and we compare FedReFT+ in Table 6 for the GSM8K Dataset. FedReFT+ achieves 7.25× and 3.63× parameter efficiency, along with +3.05% and +3.36% accuracy improvements over FedSA-LoRA and FFA-LoRA, respectively.
 
 
 Question 3: Table 5 only presents performance on four GLUE subtasks. A more comprehensive comparison across all subtasks would provide a clearer analysis. 
-Answer: We have taken the performance results of all baseline methods from (Guo et al., 2024). Therefore, we did experiments on these six GLUE subtasks to compare with the well-established baselines.
+Answer: We have taken the performance results of all baseline methods from (Guo et al., 2024). Therefore, we did experiments on these six GLUE subtasks to compare with the well-established baselines. These results across six tasks demonstrate significant performance gains, achieving 27.17× to 49.43× parameter efficiency compared to the SOTA baselines.
 
 | Method        | RANK | Param (M) | FedReFT+ Param Effi.| MNLI-m | MNLI-mm | SST-2 | QNLI | QQP  | RTE | Avg |
 |---------------|----|-----|-----|--------|---------|-------|------|------|-------|--------|
