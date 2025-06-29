@@ -23,31 +23,31 @@ The proposed FedReFT+ does not consistently outperform existing methods across a
 Answer: The centralized standalone ReFT baseline does not consistently outperform other PEFT methods in accuracy; however, it is 15–65× more parameter-efficient than LoRA while still achieving competitive accuracy. Therefore, FedReFT+ delivers the best balance of Parameter efficiency and performance. We acknowledge that FedReFT+ may not achieve the highest score on every benchmark. However, when considering accuracy and parameter efficiency, FedReFT+ nearly outperforms all state-of-the-art PEFT methods in Federated Learning settings. The following tables shows show how much FedReFT+ efficient compre to the SOTA appraoches. 
 
 Commonsense Reasoning Task using LlaMa-3.2 3B from Table 3:
-| Method     | Rank | Param (M) | Eff. vs FedReFT+(r32) | Acc Δ vs FedReFT+(r32)| Eff. vs FedReFT+(r8) | Acc Δ FedReFT+(r8) |
-|------------|------|-----------|----------------|------------------|----------------|------------------|
-| FLoRA      | 32   | 243.15    | 22.09×         | –2.61%           | 88.42×         | –3.17%           |
-| FedIT      | 32   | 48.63     | 4.42×          | +0.48%           | 17.68×         | –0.08%           |
-| FFA-LoRA   | 32   | 24.31     | 2.21×          | +5.11%           | 8.84×          | +4.55%           |
-| Fed-SB     | 120  | 2.73      | 0.25×          | +0.56%           | 0.99×          | 0.00%            |
-| FedReFT+ | 32   | 11.01     | 1.00×          | 0.00%            | 4.00×          | +0.56%           |
-| FedReF+ | 8    | 2.75      | 0.25×          | –0.56%           | 1.00×          | 0.00%            |
+| Method     | Rank | Param (M) | Avg Accu (%) | Eff. vs FedReFT+(r32) | Acc Δ vs FedReFT+(r32)| Eff. vs FedReFT+(r8) | Acc Δ FedReFT+(r8) |
+|------------|------|-----------|----------------|----------------|------------------|----------------|------------------|
+| FLoRA      | 32   | 243.15    |   78.83          | 22.09×         | –2.61%           | 88.42×         | –3.17%           |
+| FedIT      | 32   | 48.63     |   75.74          |  4.42×          | +0.48%           | 17.68×         | –0.08%           |
+| FFA-LoRA   | 32   | 24.31     |   71.11          |  2.21×          | +5.11%           | 8.84×          | +4.55%           |
+| Fed-SB     | 120  | 2.73      |    75.66          | 0.25×          | +0.56%           | 0.99×          | 0.00%            |
+| FedReFT+ | 32   | 11.01     |    76.22          | 1.00×          | 0.00%            | 4.00×          | +0.56%           |
+| FedReF+ | 8    | 2.75      |     75.66         | 0.25×          | –0.56%           | 1.00×          | 0.00%            |
 
 
 GLUE Tasks using RoBERTa-large model from Table 5:
-| Method         | Param (M)  | Param (%) | Avg Accuracy (%) | FedReFT+ Param Effi. | FedReFT+ Accu |
-|----------------|--------|------------|-------------------|----------------------|----------------------|
-| FFA-LoRA       | 1.44   | 0.405      | 89.39             | 27.17×               | +1.54%               |
-| FedDPA-LoRA    | 2.62   | 0.737      | 89.47             | 49.43×               | +1.46%               |
-| FedSA-LoRA     | 1.83   | 0.551      | 90.43             | 34.53×               | +0.50%               |
-| FedReFT+ (ours)      | 0.053  | 0.015      | 90.93             |                |                 |
+| Method         | Trainable Param (M)  | Avg Accu (%) | FedReFT+ Param Effi. | FedReFT+ Accu |
+|----------------|--------|-------------------|----------------------|----------------------|
+| FFA-LoRA       | 1.44   | 89.39             | 27.17×               | +1.54%               |
+| FedDPA-LoRA    | 2.62   | 89.47             | 49.43×               | +1.46%               |
+| FedSA-LoRA     | 1.83   | 90.43             | 34.53×               | +0.50%               |
+| FedReFT+ (ours)      | 0.053 | 90.93             |                |                 |
 
 
 Arithmetic Reasoning Task using LLaMa-3 8B from Table 6:
-| Method        | Rank | Param (M) | Param (%) | Accuracy (%) | FedReFT+ Param Effi. | FedReFT+ Accu |
-|---------------|------|-----------|------------|----------------|----------------------|----------------------|
-| FedSA-LoRA    | 8    | 30.40     | 0.38       | 46.63          | 7.25×                | +3.05%               |
-| FFA-LoRA      | 8    | 15.20     | 0.19       | 46.32          | 3.63×                | +3.36%               |
-| FedReFT+ (ours)    | 8    | 4.19      | 0.0622     | 49.68          |                 |                |
+| Method        | Rank | Trainable Param (M) | Accu (%) | FedReFT+ Param Effi. | FedReFT+ Accu |
+|---------------|------|-----------|----------------|----------------------|----------------------|
+| FedSA-LoRA    | 8    | 30.40     | 46.63          | 7.25×                | +3.05%               |
+| FFA-LoRA      | 8    | 15.20     | 46.32          | 3.63×                | +3.36%               |
+| FedReFT+ (ours)    | 8    | 4.19       | 49.68          |                 |                |
 
 The tie-ϕ variant further demonstrates how our method scales down to even more compact configurations with acceptable performance loss. 
 
