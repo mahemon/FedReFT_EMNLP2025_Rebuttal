@@ -13,7 +13,23 @@ Answer:
 While the performance gap may appear small at first glance, we would like to emphasize that even modest improvements are meaningful in the FL setting, particularly when evaluating under highly heterogeneous task distributions. As shown in Figure 3 (Appendix F):
   - Commonsense task: Geometric Median-ABM improves over Mean-ABM by 0.41 points and over FedAvg by 0.73 points. 
   - Arithmetic reasoning (GSM8K): Geometric Median-ABM improves over Mean-ABM by 1.01 and over FedAvg by 1.86. 
-  - GLUE (NLU task): The improvement over Mean-ABM is 0.19, and over FedAvg is 1.06. 
+  - GLUE (NLU task): The improvement over Mean-ABM is 0.19, and over FedAvg is 1.06.
+
+The following table shows the uplink communication efficiency of ABM-based aggregation over FedAvg aggregation. The table clearly shows that ABM-based aggregation achieves 1.50x higher communication efficiency in the uplink bandwidth, which also preserves the personalized intervention parameter, leading to higher client-level accuracy.
+| Task         | Method           | Accuracy (%) | Accu Δ (GeoMed vs. others) | Per-Client Params (M) | # Clients Sending Param | Total Uplink Comm (M Params) | GeoMedian_ABM Param Effi. |
+|--------------|------------------|---------------|-----------------------------|------------------------|--------------------------|-------------------------|-----------------------------|
+| Commonsense  | FedAvg           | 70.26         | +0.73%                      | 4.70                   | C                        | 14.10                   | 1.50×                      |
+|              | Mean_ABM         | 70.58         | +0.41%                      | 4.70                        | C–1                  | 9.40                    | 1.00×                      |
+|              | GeoMedian_ABM    | 70.99         | –                           | 4.70                        | C–1                  | 9.40                    | –                          |
+|||||||| |
+| Arithmetic   | FedAvg           | 15.35         | +1.86%                      | 4.70                   | C                        | 14.10                   | 1.50×                      |
+|              | Mean_ABM         | 16.20         | +1.01%                      |  4.70                       | C–1                  | 9.40                    | 1.00×                      |
+|              | GeoMedian_ABM    | 17.21         | –                           |  4.70                       | C–1                  | 9.40                    | –                          |
+|||||||| |
+| GLUE         | FedAvg           | 51.30         | +1.06%                      | 0.053                  | C                        | 0.159                   | 1.50×                      |
+|              | Mean_ABM         | 52.17         | +0.19%                      |  0.053                      | C–1                   | 0.106                   | 1.00×                      |
+|              | GeoMedian_ABM    | 52.36         | –                           |  0.053                      | C–1                   | 0.106                   | –                          |
+
 
 These improvements are consistent across three diverse task types. We chose Geometric Median-ABM not for peak accuracy alone but for its robustness to outlier updates and task drift, which are common in federated personalization scenarios. Especially in the arithmetic reasoning task, which is highly sensitive to client diversity, the gains were more pronounced. While we acknowledge the additional cost of computing the geometric median, this is done only once per round at the server on low-dimensional sparse intervention parameters (not full models), making the overhead negligible. Importantly, client-side efficiency is unaffected, preserving our design goal of being lightweight for edge devices. We will revise Appendix F to include variance/error bars and improve clarity in the camera-ready version. 
 
@@ -69,21 +85,34 @@ FedAvg on LoReFT is not well-established in the existing literature. For any Fed
 
 Regarding baseline selection: While FLoRA, FedIT, FFA-LoRA, and FedSB are not explicitly LoReFT-based, they are the closest state-of-the-art parameter-efficient FL methods, often relying on LoRA-like decompositions. We selected them intentionally to benchmark our method against the strongest available alternatives in low-rank or PEFT-based FL.
 
-On FedAvg + LoReFT baseline: We agree that an explicit implementation of a naïve FedAvg+LoReFT combination should be included to empirically support our theoretical concern. In response to your suggestion:
-We will include an additional experiment where we apply FedAvg directly to ReFT-style sparse representation interventions, without our ABM aggregation.
-We will measure the semantic consistency, accuracy drop, and variance across clients to show the effects of naive aggregation.
+On FedAvg + LoReFT baseline: 
+An explicit implementation of a naïve FedAvg+LoReFT combination is shown in Appendix F.1, Figure 3. This represents the FedAvg approach applied to LoReFT in FL settings, which we refer to as LoReFT+FedAvg under the FedReFT+ framework. Additionally, Table 1 provides a tabular view of the same setting without our ABM aggregation. 
+
 We will also enhance the related work section to clarify which baselines do or do not use representation-level interventions, and how their aggregation strategies differ.
 Thank you again for pointing this out—we will revise accordingly in the final version.
 
-
-
 Question 3: 
 The W2 could be partly answered by the contents from Appendix F.1. However, Fig.3 in Appendix F.1 shows that the proposed method (ABM) provides marginal improvements to FedAvg. In addition, the results shown by Fig.3 in Appendix F.1 are not consistent with the results in the main context. No parameters about the used models are given for Appendix F.1. 
-Answer:
 
+Answer:
+We did the experiments on a reduced dataset for this section, so the results are not the same as the main context. We present the same data in Table 1, which shows the result of the GLUE task on ROBERTa, Commonsense, and Arithmetic reasoning task on LLaMA-2 7B for three clients. 
+The following table shows the uplink communication efficiency of ABM-based aggregation over FedAvg aggregation. The table clearly shows that ABM-based aggregation achieves 1.50x higher communication efficiency in the uplink bandwidth, which also preserves the personalized intervention parameter, leading to higher client-level accuracy.
+| Task         | Method           | Accuracy (%) | Accu Δ (GeoMed vs. others) | Per-Client Params (M) | # Clients Sending Param | Total Uplink Comm (M Params) | GeoMedian_ABM Param Effi. |
+|--------------|------------------|---------------|-----------------------------|------------------------|--------------------------|-------------------------|-----------------------------|
+| Commonsense  | FedAvg           | 70.26         | +0.73%                      | 4.70                   | C                        | 14.10                   | 1.50×                      |
+|              | Mean_ABM         | 70.58         | +0.41%                      | 4.70                        | C–1                  | 9.40                    | 1.00×                      |
+|              | GeoMedian_ABM    | 70.99         | –                           | 4.70                        | C–1                  | 9.40                    | –                          |
+|||||||| |
+| Arithmetic   | FedAvg           | 15.35         | +1.86%                      | 4.70                   | C                        | 14.10                   | 1.50×                      |
+|              | Mean_ABM         | 16.20         | +1.01%                      |  4.70                       | C–1                  | 9.40                    | 1.00×                      |
+|              | GeoMedian_ABM    | 17.21         | –                           |  4.70                       | C–1                  | 9.40                    | –                          |
+|||||||| |
+| GLUE         | FedAvg           | 51.30         | +1.06%                      | 0.053                  | C                        | 0.159                   | 1.50×                      |
+|              | Mean_ABM         | 52.17         | +0.19%                      |  0.053                      | C–1                   | 0.106                   | 1.00×                      |
+|              | GeoMedian_ABM    | 52.36         | –                           |  0.053                      | C–1                   | 0.106                   | –                          |
 
 Question 4:
-The heterogeneous distribution among clients may not always occur, although it could appear in some real-world FL applications. The The Distinct Task (DT) scenario is closer to the heterogeneous distribution assumption. However, no DT results are given for 3.1 Commonsense Reasoning; only Mixed Task (MT) results are shown in Table 3. There is no description about DT/MT for 3.3 Natural Language Understanding. Table 4 gives DT results for 3.2 Arithmetic Reasoning; however, (1) models perform better in DT rather than MT; (2) no comparisons are made to other baselines. 
+The heterogeneous distribution among clients may not always occur, although it could appear in some real-world FL applications. The Distinct Task (DT) scenario is closer to the heterogeneous distribution assumption. However, no DT results are given for 3.1 Commonsense Reasoning; only Mixed Task (MT) results are shown in Table 3. There is no description about DT/MT for 3.3 Natural Language Understanding. Table 4 gives DT results for 3.2 Arithmetic Reasoning; however, (1) models perform better in DT rather than MT; (2) no comparisons are made to other baselines. 
 
 Answer: 
 We conducted commonsense reasoning experiments under the Distinct Task (DT) and Mixed Task (MT) setups, as described in the paper. Due to space constraints, we moved the MT experiments to Appendix G.1 (Table 14). While the caption of Table 14 does not explicitly mention the commonsense reasoning task, we clarify that the experiments presented there are indeed conducted on the commonsense reasoning dataset. 
