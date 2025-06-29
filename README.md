@@ -23,7 +23,7 @@ The proposed FedReFT+ does not consistently outperform existing methods across a
 Answer: The centralized standalone ReFT baseline does not consistently outperform other PEFT methods in accuracy; however, it is 15–65× more parameter-efficient than LoRA while still achieving competitive accuracy. Therefore, FedReFT+ delivers the best balance of Parameter efficiency and performance. We acknowledge that FedReFT+ may not achieve the highest score on every benchmark. However, when considering accuracy and parameter efficiency, FedReFT+ nearly outperforms all state-of-the-art PEFT methods in Federated Learning settings. The following tables shows show how much FedReFT+ efficient compre to the SOTA appraoches. 
 
 Commonsense Reasoning Task using LlaMa-3.2 3B from Table 3:
-| Method     | Rank | Param (M) | Eff. vs FedReFT+(r8) | Acc Δ vs FedReFT+(r8)| Eff. vs FedReFT+(r8) | Acc Δ FedReFT+(r8) |
+| Method     | Rank | Param (M) | Eff. vs FedReFT+(r32) | Acc Δ vs FedReFT+(r32)| Eff. vs FedReFT+(r8) | Acc Δ FedReFT+(r8) |
 |------------|------|-----------|----------------|------------------|----------------|------------------|
 | FLoRA      | 32   | 243.15    | 22.09×         | –2.61%           | 88.42×         | –3.17%           |
 | FedIT      | 32   | 48.63     | 4.42×          | +0.48%           | 17.68×         | –0.08%           |
@@ -34,7 +34,7 @@ Commonsense Reasoning Task using LlaMa-3.2 3B from Table 3:
 
 
 GLUE Tasks using RoBERTa-large model from Table 5:
-| Method         | TP (M) | Param (%) | Avg Accuracy (%) | Efficiency vs FedReFT+ | Accuracy Δ vs FedReFT+ |
+| Method         | TP (M) | Param (%) | Avg Accuracy (%) | Efficiency vs FedReFT+ | Accuracy (Inc/Dec) |
 |----------------|--------|------------|-------------------|----------------------|----------------------|
 | FFA-LoRA       | 1.44   | 0.405      | 89.39             | 27.17×               | +1.54%               |
 | FedDPA-LoRA    | 2.62   | 0.737      | 89.47             | 49.43×               | +1.46%               |
@@ -43,7 +43,7 @@ GLUE Tasks using RoBERTa-large model from Table 5:
 
 
 Arithmetic Reasoning Task using LLaMa-3 8B from Table 6:
-| Method        | Rank | Param (M) | Param (%) | Accuracy (%) | Efficiency vs FedReFT+ | Accuracy Δ vs FedReFT+ |
+| Method        | Rank | Param (M) | Param (%) | Accuracy (%) | FedReFT+ Param Effi. | Accuracy (Inc/Dec) |
 |---------------|------|-----------|------------|----------------|----------------------|----------------------|
 | FedSA-LoRA    | 8    | 30.40     | 0.38       | 46.63          | 7.25×                | +3.05%               |
 | FFA-LoRA      | 8    | 15.20     | 0.19       | 46.32          | 3.63×                | +3.36%               |
@@ -68,17 +68,17 @@ We sincerely appreciate the reviewer’s thoughtful comment and agree that a mor
 
 We clarify the following in response:
 
-    FedAvg+LoReFT is not well-established in existing literature, and to the best of our knowledge, we are the first to adapt representation fine-tuning (i.e., ReFT/LoReFT) to FL. Our motivation arises from the hypothesis—grounded in empirical evidence and architectural intuition—that naive aggregation of representation-level interventions (via FedAvg) can lead to semantic drift or collapse, particularly in heterogeneous tasks.
+FedAvg+LoReFT is not well-established in existing literature, and to the best of our knowledge, we are the first to adapt representation fine-tuning (i.e., ReFT/LoReFT) to FL. Our motivation arises from the hypothesis—grounded in empirical evidence and architectural intuition—that naive aggregation of representation-level interventions (via FedAvg) can lead to semantic drift or collapse, particularly in heterogeneous tasks.
 
-    Regarding baseline selection: While FLoRA, FedIT, FFA-LoRA, and FedSB are not explicitly LoReFT-based, they are the closest state-of-the-art parameter-efficient FL methods, often relying on LoRA-like decompositions. We selected them intentionally to benchmark our method against the strongest available alternatives in low-rank or PEFT-based FL.
+Regarding baseline selection: While FLoRA, FedIT, FFA-LoRA, and FedSB are not explicitly LoReFT-based, they are the closest state-of-the-art parameter-efficient FL methods, often relying on LoRA-like decompositions. We selected them intentionally to benchmark our method against the strongest available alternatives in low-rank or PEFT-based FL.
 
-    On FedAvg + LoReFT baseline: We agree that an explicit implementation of a naïve FedAvg+LoReFT combination should be included to empirically support our theoretical concern. In response to your suggestion:
+On FedAvg + LoReFT baseline: We agree that an explicit implementation of a naïve FedAvg+LoReFT combination should be included to empirically support our theoretical concern. In response to your suggestion:
 
-        We will include an additional experiment where we apply FedAvg directly to ReFT-style sparse representation interventions, without our ABM aggregation.
+We will include an additional experiment where we apply FedAvg directly to ReFT-style sparse representation interventions, without our ABM aggregation.
 
-        We will measure the semantic consistency, accuracy drop, and variance across clients to show the effects of naive aggregation.
+We will measure the semantic consistency, accuracy drop, and variance across clients to show the effects of naive aggregation.
 
-        We will also enhance the related work section to clarify which baselines do or do not use representation-level interventions, and how their aggregation strategies differ.
+We will also enhance the related work section to clarify which baselines do or do not use representation-level interventions, and how their aggregation strategies differ.
 
 Thank you again for pointing this out—we will revise accordingly in the final version.
 
@@ -123,6 +123,17 @@ We sincerely apologize for the oversight; our work uses only publicly available,
 Question 1: In Table 3, FedReFT+ with rank=8 shows no improvement over Fed-SB in terms of both performance and the number of trainable parameters. 
 
 Answer:
+
+Commonsense Reasoning Task using LlaMa-3.2 3B from Table 3:
+| Method     | Rank | Param (M) | Eff. vs FedReFT+(r8) | Acc Δ vs FedReFT+(r8)| Eff. vs FedReFT+(r8) | Acc Δ FedReFT+(r8) |
+|------------|------|-----------|----------------|------------------|----------------|------------------|
+| FLoRA      | 32   | 243.15    | 22.09×         | –2.61%           | 88.42×         | –3.17%           |
+| FedIT      | 32   | 48.63     | 4.42×          | +0.48%           | 17.68×         | –0.08%           |
+| FFA-LoRA   | 32   | 24.31     | 2.21×          | +5.11%           | 8.84×          | +4.55%           |
+| Fed-SB     | 120  | 2.73      | 0.25×          | 0.0%           | 0.99×          | 0.00%            |
+| FedReFT+ | 32   | 11.01     | 1.00×          | 0.00%            | 4.00×          | +0.56%           |
+| FedReF+ | 8    | 2.75      | 0.25×          | –0.56%           | 1.00×          | 0.00%            |
+
 
 Question 2: Table 4 displays the performance of FedReFT+ across different models with two setups. However, it is unclear what the baseline performance is under these settings.
 
