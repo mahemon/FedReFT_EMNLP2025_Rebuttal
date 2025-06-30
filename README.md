@@ -84,7 +84,7 @@ FedAvg on LoReFT is not well-established in the existing literature. We first tr
 Question 3:
 The W2 could be partly answered by the contents from Appendix F. ... 
 Answer:
-We did the experiments on a reduced dataset for this section, so the results are not the same as the main context. We present the same results in Figure 3 and Table 1, which shows the result of the GLUE task on ROBERTa, Commonsense, and Arithmetic reasoning task on the LLaMA-2 7B model for three clients. Table in the Answer 1 can be also consider for this question. 
+We did the experiments on a reduced dataset for this section, so the results are not the same as the main context. We present the same results in Figure 3 and Table 1, which shows the result of the GLUE task on ROBERTa, Commonsense, and Arithmetic reasoning task on the LLaMA-2 7B model for three clients. The table in Answer 1 can also be considered for this question. 
 
 Question 4:
 The heterogeneous distribution among clients may not always occur...
@@ -158,9 +158,9 @@ We redesigned Figure 1, which is a Illustration of the relationship between the 
 **Comments, Suggestions, And Typos:**
 - Section 2.1 compares various intervention parameter sharing strategies, but FedReFT+ ultimately selects Full Intervention Sharing without any special design. Therefore, this discussion could be moved to the Appendix. In contrast, the ablation study on the Aggregation method is important and should be included in the main body of the paper. 
 
-**Answer:** We will correct the typos in the next version. We are considering moving Section 2.1 to the Appendix to improve the flow of the main content. Additionally, we will incorporate the ablation study on the aggregation method into the main paper to highlight its significance. 
+**Answer:** We will correct the typos in the camera-ready version. We are considering moving Section 2.1 to the Appendix to improve the flow of the main content. Additionally, we will incorporate the ablation study on the aggregation method into the main paper to highlight its significance. 
 
 - Many tables and figures are not located on the same pages where they are referenced, which makes the paper hard to follow. 
 
-**Answer:** We sincerely acknowledge this issue and will address it in the next version of the paper.
+**Answer:** We sincerely acknowledge this issue and will address it in the camera-ready version of the paper.
 
