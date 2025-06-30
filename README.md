@@ -32,6 +32,7 @@ These improvements are consistent across three diverse task types. We chose Geom
 The proposed FedReFT+ does not consistently outperform existing methods across all benchmarks. In both Table 3 and Table 5, several baselines achieve better performance, raising concerns about the practical utility and competitiveness of FedReFT+ in real-world applications despite the authors’ efforts to improve performance.  
 
 **Answer:** The centralized standalone ReFT baseline (Wu et al., 2024b) does not consistently outperform other PEFT methods in accuracy, whereas it is 15–65× more parameter-efficient than LoRA while still achieving competitive accuracy. Therefore, FedReFT+ delivers the best balance of Parameter efficiency and performance. We acknowledge that FedReFT+ may not achieve the highest score on every benchmark. However, when considering accuracy and parameter efficiency, FedReFT+ nearly outperforms all state-of-the-art PEFT methods in Federated Learning settings. The following tables show how much FedReFT+ is efficient compared to the SOTA approaches. From Table 3, Federated fine-tuning performance of LlaMa-3.2 3B across five commonsense reasoning tasks with Mixed Task (MT) experimental setup, where clients train on heterogeneous task mixtures to promote generalizable representations. 
+
 | Method     | Rank (R) | Param (M) | Avg Accu (%) | FedReFT+(R 32) Param Effi. | Accu Δ (FedReFT+(R 32) vs. others)| FedReFT+(R 8) Param Effi. | Accu Δ (FedReFT+(R 8) vs. others)|
 |------------|----------|-----------|----------------|-----------------------|----------------|----------------------|----------------|
 | FLoRA      | 32       | 243.15    | 78.83          | 22.09×                | –2.61%         | 88.42×               | –3.17%         |
@@ -42,6 +43,7 @@ The proposed FedReFT+ does not consistently outperform existing methods across a
 | FedReFT+| 8        | 2.75      | 75.66          | 0.25×                 | –0.56%         | —                    | —              |
 
 From Table 5, Performance comparison across GLUE Tasks on RoBERTa model for C = 3, FedReFT+ uses rank 1, whereas all baseline uses rank 8. For the Natural Language Understanding task, FedReFT+ outperforms all the baselines and is (27.17× to 34.53×) times more parameter efficient. 
+
 | Method         | Trainable Param (M)  | Avg Accu (%) | FedReFT+ Param Effi. | Accu Δ (FedReFT+ vs. others)|
 |----------------|--------|-------------------|----------------------|----------------------|
 | FFA-LoRA       | 1.44   | 89.39             | 27.17×               | +1.54%               |
@@ -51,6 +53,7 @@ From Table 5, Performance comparison across GLUE Tasks on RoBERTa model for C = 
 
 From Table 6, Performance comparison on arithmetic reasoning tasks for GSM8K on LLaMa-3 8B model with LoRA
 rank 8, where clients enable consistent evaluation of representation generalization. FedReFT+ achieves (+3.05%, +3.36%) higher accuracy with (3.63×, 7.25×) times parameter efficient. 
+
 | Method        | Rank | Trainable Param (M) | Accu (%) | FedReFT+ Param Effi. | Accu Δ (FedReFT+ vs. others) |
 |---------------|------|-----------|----------------|----------------------|----------------------|
 | FedSA-LoRA    | 8    | 30.40     | 46.63          | 7.25×                | +3.05%               |
@@ -66,6 +69,7 @@ The tie-ϕ variant further demonstrates how our method scales down to even more 
 We appreciate the reviewer highlighting this point. ReFT methods operate on a frozen base model and learn task-specific Interventions on hidden representations. Our claim regarding semantic interference or collapse under FedAvg is grounded in the intuitive mismatch between LoReFT-style updates (ReFT, LoRA, LoReFT) and naive intervention parameter averaging, especially under heterogeneous client tasks. Since LoReFT modifies internal representation layers, averaging such updates across clients with divergent tasks can result in semantic drift, where the aggregated representation no longer aligns with any client’s local task semantics. 
 
 As shown in Figure 3 (Appendix F) and Table 1: The time complexity for the arithmetic mean is O(d), whereas the time complexity for the geometric median (using Weiszfeld’s algorithm) is O(T.d), where T is the number of iterations and d is the number of trainable parameters. For memory complexity, both the arithmetic mean and geometric median have the same complexity of O(d). Despite being computationally more expensive, the geometric median is more robust for heterogeneous aggregation and often yields higher accuracy in federated learning (FL) settings. The following table shows the performance of FedAvg, Mean_ABM, and GeoMedian_ABM: 
+
 | Task         | Method           | Avg Accu (%) | Accu Δ (GeoMed_ABM vs. others) | Params (M) |
 |--------------|------------------|---------------|-----------------------------|------------------------|
 | Commonsense,LLaMa-2 7B  | FedAvg           | 70.26         | +0.73%                      | 4.70                   |
@@ -98,20 +102,19 @@ The W2 could be partly answered by the contents from Appendix F.1. However, Fig.
 
 **Answer:**
 We did the experiments on a reduced dataset for this section, so the results are not the same as the main context. We present the same results in Table 1, which shows the result of the GLUE task on ROBERTa, Commonsense, and Arithmetic reasoning task on the LLaMA-2 7B model for three clients. 
+|||||
 | Task         | Method           | Accuracy (%) | Accu Δ (GeoMed_ABM vs. others) | Params (M) |
 |--------------|------------------|---------------|-----------------------------|------------------------|
 | Commonsense,LLaMa-2 7B  | FedAvg           | 70.26         | +0.73%                      | 4.70                   |
 |              | Mean_ABM         | 70.58         | +0.41%                      | 4.70                   |
 |              | GeoMedian_ABM    | 70.99         | –                           | 4.70                   |
-||||||
 | Arithmetic,LLaMa-2 7B   | FedAvg           | 15.35         | +1.86%                      | 4.70                   |
 |              | Mean_ABM         | 16.20         | +1.01%                      | 4.70                   |
 |              | GeoMedian_ABM    | 17.21         | –                           | 4.70                   |
-||||||
 | GLUE,RoBERTa        | FedAvg           | 51.30         | +1.06%                      | 0.053                  |
 |              | Mean_ABM         | 52.17         | +0.19%                      | 0.053                  |
 |              | GeoMedian_ABM    | 52.36         | –                           | 0.053                  |
-
+|||||
 **Question 4:**
 The heterogeneous distribution among clients may not always occur, although it could appear in some real-world FL applications. The Distinct Task (DT) scenario is closer to the heterogeneous distribution assumption. However, no DT results are given for 3.1 Commonsense Reasoning; only Mixed Task (MT) results are shown in Table 3. There is no description about DT/MT for 3.3 Natural Language Understanding. Table 4 gives DT results for 3.2 Arithmetic Reasoning; however, (1) models perform better in DT rather than MT; (2) no comparisons are made to other baselines. 
 
